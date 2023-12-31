@@ -42,6 +42,6 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "etc/usr/artifacts/test-actions-${{ env.RELEASE_VERSION }}/*"
+          artifacts: "test-actions-${{ env.RELEASE_VERSION }}"
           body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
