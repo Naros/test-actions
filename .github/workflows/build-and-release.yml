@@ -67,6 +67,6 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "test-actions-${{ env.RELEASE_VERSION }}-win32.zip,test-actions-${{ env.RELEASE_VERSION }}-linux.zip"
+          artifacts: "test-actions-${{ env.RELEASE_VERSION }}-*.zip"
           body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
