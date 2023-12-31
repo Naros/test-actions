@@ -21,15 +21,13 @@ jobs:
         with:
           name: test-actions-${{ env.RELEASE_VERSION }}
           retention-days: 1
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/README.md
 
       - name: Download artifact
         uses: actions/download-artifact@v4
-        with:
-          path: ./downloads
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "./downloads/*"
+          artifacts: "etc/usr/artifacts/test-actions-${{ env.RELEASE_VERSION }}/*"
           body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
