@@ -43,6 +43,6 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "artifacts/test-actions-${{ env.RELEASE_VERSION }}*"
+          artifacts: "./artifacts/*"
           body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
