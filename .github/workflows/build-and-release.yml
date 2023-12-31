@@ -20,7 +20,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-actions-${{ env.RELEASE_VERSION }}
-        retention-days: 1
+          retention-days: 1
         path: ${{ github.workspace }}
 
       - name: Download artifact
