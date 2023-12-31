@@ -12,9 +12,21 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-actions-${{ env.RELEASE_VERSION }}
+        retention-days: 1
+        path: ${{ github.workspace }}
+
+      - name: Download artifact
+        uses: actions/download-artifacts@v4
+        path: ./downloads
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "release.zip,*.md"
-          body: "This is the body for the release"
+          artifacts: "./downloads/*"
+          body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
