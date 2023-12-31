@@ -21,7 +21,7 @@ jobs:
         with:
           name: test-actions-${{ env.RELEASE_VERSION }}
           retention-days: 1
-        path: ${{ github.workspace }}
+          path: ${{ github.workspace }}
 
       - name: Download artifact
         uses: actions/download-artifacts@v4
