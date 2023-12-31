@@ -41,8 +41,11 @@ jobs:
           name: test-actions-${{ env.RELEASE_VERSION }}
           path: artifacts
 
+      - name: Create zips
+        run: "zip -r test-actions-${{ env.RELEASE_VERSION }}-release.zip ./artifacts/*"
+
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "./artifacts/*"
+          artifacts: "test-actions-${{ env.RELEASE_VERSION }}-release.zip"
           body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
