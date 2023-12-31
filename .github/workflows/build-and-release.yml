@@ -6,6 +6,19 @@ on:
 
 jobs:
   build:
+
+    strategy:
+      matrix:
+        include:
+          - identifier: linux-debug
+            build_type: Debug
+          - identifier: linux-release
+            build_type: Release
+          - identifier: windows-debug
+            build_type: Debug
+          - identifier: windows-release
+            build_type: Release
+
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -13,13 +26,10 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Set environment
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: test-actions-${{ env.RELEASE_VERSION }}
+          name: test-actions-${{ matrix.identifier }}
           retention-days: 1
           path: ${{ github.workspace }}/README.md
 
@@ -29,24 +39,34 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
       - name: Set environment
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: test-actions-${{ env.RELEASE_VERSION }}
           path: artifacts
 
-      - name: Create zips
-        working-directory: "artifacts"
-        run: "zip -r ../test-actions-${{ env.RELEASE_VERSION }}-release.zip *"
-          
+      - name: Create Windows Distribution
+        run: |
+          cd artifacts/test-actions-windows-debug
+          mv README.md README_debug.md
+          zip -r ../test-actions-${{ env.RELEASE_VERSION }}-win32.zip *
+          cd ../test-actions-windows-release
+          mv README.md README_release.md
+          zip -ur ../test-actions-${{ env.RELEASE_VERSION }}-win32.zip *
+
+      - name: Create Linux Distribution
+        run: |
+          cd artifacts/test-actions-linux-debug
+          mv README.md README_debug.md
+          zip -r ../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
+          cd ../test-actions-linux-release
+          mv README.md README_release.md
+          zip -ur ../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
+
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "test-actions-${{ env.RELEASE_VERSION }}-release.zip"
+          artifacts: "test-actions-${{ env.RELEASE_VERSION }}-win32.zip,test-actions-${{ env.RELEASE_VERSION }}-linux.zip"
           body: "This is the release for tag ${{ env.RELEASE_VERSION}}"
           makeLatest: "true"
