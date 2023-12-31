@@ -1,0 +1,17 @@
+name: Build and Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "release.zip,*.md"
+          body: "This is the body for the release"
+          makeLatest: "true"
