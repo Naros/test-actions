@@ -65,6 +65,9 @@ jobs:
           mv README.md README_release.md
           zip -ur ../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
 
+      - name: Check contents
+        run: "ls -la"
+
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "test-actions-${{ env.RELEASE_VERSION }}-*.zip"
