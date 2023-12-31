@@ -51,19 +51,19 @@ jobs:
         run: |
           cd artifacts/test-actions-windows-debug
           mv README.md README_debug.md
-          zip -r ../test-actions-${{ env.RELEASE_VERSION }}-win32.zip *
+          zip -r ../../test-actions-${{ env.RELEASE_VERSION }}-win32.zip *
           cd ../test-actions-windows-release
           mv README.md README_release.md
-          zip -ur ../test-actions-${{ env.RELEASE_VERSION }}-win32.zip *
+          zip -ur ../../test-actions-${{ env.RELEASE_VERSION }}-win32.zip *
 
       - name: Create Linux Distribution
         run: |
           cd artifacts/test-actions-linux-debug
           mv README.md README_debug.md
-          zip -r ../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
+          zip -r ../../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
           cd ../test-actions-linux-release
           mv README.md README_release.md
-          zip -ur ../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
+          zip -ur ../../test-actions-${{ env.RELEASE_VERSION }}-linux.zip *
 
       - name: Check contents
         run: "ls -la"
